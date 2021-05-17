@@ -64,7 +64,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         QMessageBox.information(self, title, info, QMessageBox.Ok)
 
     def proportional_zoom(self, label, image):
-        if label.height() > label.width():
+        if image.height() < image.width():
             width = label.width()
             height = int(image.height() * (width / image.width()))
         else:
@@ -81,10 +81,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             return
         send.run("图片放大成功!")
         self.textBrowser.append("<h3>图片放大成功!</h3>")
-        image = QtGui.QImage(output_image, output_image.shape[1], output_image.shape[0], QtGui.QImage.Format_BGR888)
+        image = QtGui.QImage(output_image, output_image.shape[1], output_image.shape[0],output_image.shape[1]*3, QtGui.QImage.Format_BGR888)
         width, height = self.proportional_zoom(self.display_show_image, image)
-        image = image.scaled(width, height)
-        image = QtGui.QPixmap(image)  # .scaled(self.display_show_image.width(), self.display_show_image.height())
+        image = QtGui.QPixmap(image).scaled(width, height)
         self.display_show_image.setPixmap(image)
 
     def saveImage(self):
