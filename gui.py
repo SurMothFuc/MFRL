@@ -80,11 +80,13 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             output_image = None
             return
         send.run("图片放大成功!")
-        self.textBrowser.append("<h3>图片放大成功!</h3>")
-        image = QtGui.QImage(output_image, output_image.shape[1], output_image.shape[0],output_image.shape[1]*3, QtGui.QImage.Format_BGR888)
+        self.textBrowser.append("<h3>图片放大成功!</h3>") 
+        output_image = cv2.cvtColor(output_image, cv2.COLOR_BGR2RGB)
+        image = QtGui.QImage(output_image, output_image.shape[1], output_image.shape[0],output_image.shape[1]*3, QtGui.QImage.Format.Format_RGB888)
         width, height = self.proportional_zoom(self.display_show_image, image)
         image = QtGui.QPixmap(image).scaled(width, height)
-        self.display_show_image.setPixmap(image)
+        self.display_show_image.setPixmap(image)        
+        output_image = cv2.cvtColor(output_image, cv2.COLOR_RGB2BGR)
 
     def saveImage(self):
         if ThreadEnlarge != None:
